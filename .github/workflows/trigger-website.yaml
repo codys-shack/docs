@@ -1,3 +1,4 @@
+
 name: Signal Website Repo
 
 on:
@@ -11,11 +12,9 @@ jobs:
     steps:
       - name: Send update signal
         run: |
-          ORG="codys-shack"
-          REPO="docs-system"
-          
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.WEBSITE_REPO_PAT }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://github.com/${ORG}/${REPO}/dispatches" \
-            -d '{"event_type": "docs_updated"}'
+          curl --fail-with-body -L -X POST \
+            -H "Authorization: Bearer ${{ secrets.WEBSITE_REPO_PAT }}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            https://api.github.com/repos/codys-shack/docs-system/dispatches \
+            -d '{"event_type":"docs_updated"}'
